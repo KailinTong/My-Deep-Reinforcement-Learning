@@ -119,7 +119,7 @@ Here are some of my intuitions when each enhanced algorithm is useful.
 It will be interesting and challenging to train an agent from RGB images.
 
 ## Questions for the reviewer
-Could you check wether my implementation of prioritized memory replay is correct? 
+Could you check whether my implementation of prioritized memory replay is correct? 
 
 I tested it with parameters (alpha = 0, beta = 0, beta_increment_per_sampling
 = 0) for a uniform replay and it worked well. 
