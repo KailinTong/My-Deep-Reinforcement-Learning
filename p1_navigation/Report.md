@@ -83,15 +83,19 @@ However, when I tried prioritized memory replay (e.g. alpha = 0.6, beta = 0.4, b
 
 ## Experiment results
 Deep Q-network solved the environment in **379** episodes with	average Score: 13.00
+
 ![average_score_dqn](images/average_score_dqn.png)
 
 Double DQN solved the environment in **410** episodes with average Score: 13.03
+
 ![average_score_double_dqn](images/average_score_double_dqn.png)
 
 Dueling DQN solved the environment in **411** episodes with average Score: 13.02
+
 ![average_score_dueling_dqn](images/average_score_dueling_dqn.png)
 
 Double DQN with prioritized memory solved the environment in **473** episodes with average Score: 13.01
+
 ![average_score_double_dqn_prioritized](images/average_score_double_dqn_prioritized.png)
 
 
