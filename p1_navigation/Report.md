@@ -127,7 +127,7 @@ I tested it with parameters (alpha = 0, beta = 0, beta_increment_per_sampling
 However, when I tried prioritized memory replay (e.g. alpha = 0.6, beta = 0.4, beta_increment_per_sampling
 = 0.001), the average reward could never reach 13.
 
-### Reference paper
+## Reference paper
 - [DQN](http://files.davidqiu.com//research/nature14236.pdf)
 - [Double DQN](https://arxiv.org/abs/1509.06461)
 - [Dueling DQN](https://arxiv.org/abs/1511.06581)
