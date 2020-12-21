@@ -1,6 +1,6 @@
 # Project 1: Navigation
 
-### Introduction
+## Introduction
 This is a really interesting project to collect as many as bananas:)
 
 I implemented Deep Q network, Double deep Q network, Dueling deep Q network
@@ -9,8 +9,8 @@ as well as prioritized memory replay.
 I compared their performance and got some interesting intuitions for them.
 
 
-### Learning algorithms
-#### Shared hyper-parameters
+## Learning algorithms
+### Shared hyper-parameters
 Theses hyper-parameters are used for all learning algorithms.
 
 | hyper-parameters        | Value           | 
@@ -21,7 +21,7 @@ Theses hyper-parameters are used for all learning algorithms.
 | learning rate | 5e-4    |   
 | how often to update the network | 4    |  
 
-#### Deep Q network
+### Deep Q network
 The core idea of deep Q network is to estimate Q value by a neural network. 
 
 Two techniques are extremely useful: 
@@ -41,7 +41,7 @@ Network architecture is:
 - Output layer size: 4
 
 
-#### Double deep Q-network
+### Double deep Q-network
 Different from vanilla DQN, double DQN uses the online network to greedily select the next action, 
 while the target network is used to evaluate the next state's q value. 
 
@@ -49,7 +49,7 @@ while the target network is used to evaluate the next state's q value.
 
 The neutral network has the same architecture as it of DQN.
 
-#### Dueling deep Q network
+### Dueling deep Q network
 The neutral network has the same architecture as it of DQN except the last layer. 
 Value estimator network architecture is:
 - Input layer size: 37
@@ -64,23 +64,24 @@ Advantage estimator network architecture is:
 - Output layer size: 4
 
 Finally, through a special aggregation layer to get an estimate of Q(s,a).
+
 ![dueling_dqn](images/0.png)
 
-#### Double deep Q network with prioritized memory replay
+### Double deep Q network with prioritized memory replay
 I implemented the prioritized memory replay coupled with Double DQN. 
-I tested it with parameters (in the following talbe) for a uniform replay and it worked well. 
+I tested it with parameters (in the following table) for a uniform replay and it worked well. 
 
 | parameters    | Value   | 
 | ------------- | -------------| 
 | alpha      | 0 | 
 | beta      | 0  |   
-| beta_increment_per_sampling| 0  |   
+| beta_increment_per_sampling| 0  | 
 
 However, when I tried prioritized memory replay (e.g. alpha = 0.6, beta = 0.4, beta_increment_per_sampling
 = 0.001), the average reward could never reach 13.
 
 
-### Experiment results
+## Experiment results
 Deep Q-network solved the environment in **379** episodes with	average Score: 13.00
 ![average_score_dqn](images/average_score_dqn.png)
 
@@ -94,7 +95,7 @@ Double DQN with prioritized memory solved the environment in **473** episodes wi
 ![average_score_double_dqn_prioritized](images/average_score_double_dqn_prioritized.png)
 
 
-### summary 
+## summary
 I got sunrising results that vanilla DQN slightly outperforms double/dulling DQN with the my parameter configuration.
 It seems that in this project the number of hidden units has major influence on the result.
 
@@ -112,27 +113,23 @@ Here are some of my intuitions when each enhanced algorithm is useful.
 
 
 
-### Ideas for Future Work
+## Ideas for Future Work
 Memory size
 
-### Questions for the reviewer
+## Questions for the reviewer
 Could you check wether my implementation of prioritized memory replay is correct? 
 
-I tested it with parameters (in the following talbe) for a uniform replay and it worked well. 
+I tested it with parameters (alpha = 0, beta = 0, beta_increment_per_sampling
+= 0) for a uniform replay and it worked well. 
 
-| parameters    | Value   | 
-| ------------- | -------------| 
-| alpha      | 0 | 
-| beta      | 0  |   
-| beta_increment_per_sampling| 0  | 
 However, when I tried prioritized memory replay (e.g. alpha = 0.6, beta = 0.4, beta_increment_per_sampling
 = 0.001), the average reward could never reach 13.
 
 ### Reference paper
-- [DQN](https://arxiv.org/abs/1511.06581)
-- [Double DQN](https://arxiv.org/abs/1511.06581)
+- [DQN](http://files.davidqiu.com//research/nature14236.pdf)
+- [Double DQN](https://arxiv.org/abs/1509.06461)
 - [Dueling DQN](https://arxiv.org/abs/1511.06581)
-- [Prioritized memory replay](https://arxiv.org/abs/1511.06581)
+- [Prioritized memory replay](https://arxiv.org/abs/1511.05952)
 
 
 
