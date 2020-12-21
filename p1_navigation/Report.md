@@ -111,10 +111,8 @@ Here are some of my intuitions when each enhanced algorithm is useful.
 
 
 
-
-
 ## Ideas for Future Work
-Memory size
+It will be interesting and challenging to train an agent from RGB images.
 
 ## Questions for the reviewer
 Could you check wether my implementation of prioritized memory replay is correct? 
