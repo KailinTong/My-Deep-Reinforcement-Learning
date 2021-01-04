@@ -17,9 +17,9 @@ LR_ACTOR = 1e-4         # learning rate of the actor
 LR_CRITIC = 1e-3        # learning rate of the critic
 WEIGHT_DECAY = 0        # L2 weight decay
 
-NOISE_MU = 0.0      # Ornstein-Uhlenbeck process noise mu
-NOISE_THETA = 0.15    # Ornstein-Uhlenbeck process noise theta
-NOISE_SIGMA = 0.2     # Ornstein-Uhlenbeck process noise sigma
+# NOISE_MU = 0.0      # Ornstein-Uhlenbeck process noise mu
+# NOISE_THETA = 0.15    # Ornstein-Uhlenbeck process noise theta
+# NOISE_SIGMA = 0.2   # Ornstein-Uhlenbeck process noise sigma
 
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 device = torch.device("cpu")  #TODO
@@ -27,7 +27,7 @@ device = torch.device("cpu")  #TODO
 class Agent():
     """Interacts with and learns from the environment."""
     
-    def __init__(self, state_size, action_size, random_seed):
+    def __init__(self, state_size, action_size, random_seed, num_agents=20):
         """Initialize an Agent object.
         
         Params
@@ -41,28 +41,28 @@ class Agent():
         self.seed = random.seed(random_seed)
 
         # Actor Network (w/ Target Network)
-        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=64,  fc2_units=32).to(device)
-        self.actor_target = Actor(state_size, action_size, random_seed, fc1_units=64,  fc2_units=32).to(device)
+        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=128).to(device)
+        self.actor_target = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=128).to(device)
         self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=LR_ACTOR)
 
         # Critic Network (w/ Target Network)
-        self.critic_local = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=64).to(device)
-        self.critic_target = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=64).to(device)
+        self.critic_local = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=128).to(device)
+        self.critic_target = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=128).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
 
         # Noise process
-        self.noise = OUNoise(action_size, random_seed, mu=NOISE_MU, theta=NOISE_THETA, sigma=NOISE_SIGMA)
+        self.noise = OUNoise((num_agents, action_size), random_seed)
 
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
     
-    def step(self, state, action, reward, next_state, done, learn_steps=10, learn_flag=False, store_flag=False):
+    def step(self, states, actions, rewards, next_states, dones, learn_steps=10, learn_flag=False):
         """Save experience in replay memory, and use random sample from buffer to learn."""
         # Save experience / reward
-        if store_flag:
+        for state, action, reward, next_state, done in zip(states, actions, rewards, next_states, dones):
             self.memory.add(state, action, reward, next_state, done)
 
-        # Learn, if enough samples are available in memory
+        # Learn, if enough samples are available in memory and learn_flag is True
         if len(self.memory) > BATCH_SIZE and learn_flag:
             for i in range(learn_steps):
                 experiences = self.memory.sample()
@@ -154,7 +154,7 @@ class OUNoise:
     def sample(self):
         """Update internal state and return it as a noise sample."""
         x = self.state
-        dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
+        dx = self.theta * (self.mu - x) + self.sigma * np.random.randn(*self.mu.shape)
         self.state = x + dx
         return self.state
 
