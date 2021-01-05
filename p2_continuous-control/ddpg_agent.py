@@ -16,7 +16,7 @@ TAU = 1e-3              # for soft update of target parameters
 LR_ACTOR = 1e-4         # learning rate of the actor 
 LR_CRITIC = 1e-3        # learning rate of the critic
 WEIGHT_DECAY = 0        # L2 weight decay
-
+BETA = 0.999            # noise level decay
 # NOISE_MU = 0.0      # Ornstein-Uhlenbeck process noise mu
 # NOISE_THETA = 0.15    # Ornstein-Uhlenbeck process noise theta
 # NOISE_SIGMA = 0.2   # Ornstein-Uhlenbeck process noise sigma
@@ -41,13 +41,13 @@ class Agent():
         self.seed = random.seed(random_seed)
 
         # Actor Network (w/ Target Network)
-        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=128).to(device)
-        self.actor_target = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=128).to(device)
+        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=64).to(device)
+        self.actor_target = Actor(state_size, action_size, random_seed, fc1_units=128,  fc2_units=64).to(device)
         self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=LR_ACTOR)
 
         # Critic Network (w/ Target Network)
-        self.critic_local = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=128).to(device)
-        self.critic_target = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=128).to(device)
+        self.critic_local = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=64).to(device)
+        self.critic_target = Critic(state_size, action_size, random_seed, fcs1_units=128,  fc2_units=64).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
 
         # Noise process
@@ -68,7 +68,7 @@ class Agent():
                 experiences = self.memory.sample()
                 self.learn(experiences, GAMMA)
 
-    def act(self, state, add_noise=True):
+    def act(self, state, add_noise=True, episode=0):
         """Returns actions for given state as per current policy."""
         state = torch.from_numpy(state).float().to(device)
         self.actor_local.eval()
@@ -76,7 +76,7 @@ class Agent():
             action = self.actor_local(state).cpu().data.numpy()
         self.actor_local.train()
         if add_noise:
-            action += self.noise.sample()
+            action += self.noise.sample() * (BETA ** episode)
         return np.clip(action, -1, 1)
 
     def reset(self):
@@ -154,7 +154,7 @@ class OUNoise:
     def sample(self):
         """Update internal state and return it as a noise sample."""
         x = self.state
-        dx = self.theta * (self.mu - x) + self.sigma * np.random.randn(*self.mu.shape)
+        dx = self.theta * (self.mu - x) + self.sigma * np.random.standard_normal(self.mu.shape)
         self.state = x + dx
         return self.state
 
