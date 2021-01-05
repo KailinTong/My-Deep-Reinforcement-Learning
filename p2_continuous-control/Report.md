@@ -19,7 +19,6 @@ Theses hyper-parameters are used for DDPG.
 | ------------- | -------------| 
 | BUFFER_SIZE      | 10000 | 
 | BATCH_SIZE      | 128 | 
-| BUFFER_SIZE      | 10000 | 
 | discount factor      | 0.99      |   
 | TAU for soft update of target parameters| 1e-3    |   
 | learning rate actor | 1e-4    |   
@@ -44,14 +43,14 @@ Critic network architecture is:
 
 
 ### Implementation tricks
-1. Starting from small network
-2. Amended the code to update the networks 10 times after every 20 timesteps. 
-3. Use a beta to slowly reduce noises. This leads to quicker convergence at the final stage.
+1. Start from small network.
+2. Amended the code to update the networks 10 times after every 20 time steps. 
+3. Use a beta to slowly reduce noises. This led to quicker convergence at the final stage.
 4. At first, I followed the instruction from a post of a mentor: "_You should reset the environment only at the beginning of your training._" 
 Unfortunately, this made the average score always less than 1.0. Now I reset the environment after every episode.
 
 ## Experiment results
-DDPG solved the environment in **339** episodes with	average Score: 30.02
+DDPG solved the environment in **339** episodes with average Score: 30.02.
 
 ![average_score_dqn](images/figures_scores.png)
 
