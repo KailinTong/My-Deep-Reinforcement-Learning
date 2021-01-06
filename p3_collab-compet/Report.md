@@ -17,48 +17,47 @@ Theses hyper-parameters are used for DDPG.
 
 | hyper-parameters        | Value           | 
 | ------------- | -------------| 
-| BUFFER_SIZE      | 100000 | 
-| BATCH_SIZE      | 128 | 
+| BUFFER_SIZE      | 1000000 | 
+| BATCH_SIZE      | 256 | 
 | discount factor      | 0.99      |   
 | TAU for soft update of target parameters| 1e-3    |   
 | learning rate actor | 1e-4    |   
 | learning rate critic | 1e-3    |   
 | WEIGHT_DECAY | 0    |  
-| BETA | 0.999    |  
+| NOISE_SIGMA | 0.4    |  
 
 
 ### Neural work architecture
 The neutral network has the same architecture as it of DQN except the last layer. 
 Actor network architecture is:
-- Input layer size: 33
-- Hidden layer 1 size: 128
+- Input layer size: 24
+- Hidden layer 1 size: 64
 - Hidden layer 2 size: 64
 - Output layer size: 4
 
 Critic network architecture is:
-- Input layer size: 33
-- Hidden layer 1 size: 128
+- Input layer size: 24
+- Hidden layer 1 size: 64
 - Hidden layer 2 size: 64
 - Output layer size: 1
 
 
 ### Implementation tricks
-1. Start from small network.
-2. Amended the code to update the networks 10 times after every 20 time steps. 
-3. Use a beta to slowly reduce noises. This led to quicker convergence at the final stage.
-4. At first, I followed the instruction from a post of a mentor: "_You should reset the environment only at the beginning of your training._" 
-Unfortunately, this made the average score always less than 1.0. Now I reset the environment after every episode.
+1. Start from small network. The input state size and output action size is small.
+2. Before I trained 6000 episodes with the strong noises, but the average score is always oscillation. At first Cancel the noise after collecting some experience with positive rewards. Then it enables exploitation of the policy instead of exploration. 
+However, the agent cannot learn techniques dealing with special scenarios.
+3. Large buffer size to save those positive experience.
 
 ## Experiment results
-DDPG solved the environment in **339** episodes with average Score: 30.02.
+DDPG solved the environment in **971** episodes with average Score: 0.51.
 
-![average_score_dqn](images/figures_scores.png)
+![average_score_dqn](images/figure_scores.png)
 
 
 ## Ideas for Future Work
-At the beggining of trainning, it is really difficult for the agent get some rewards. Prioritized experience replay might be helpful.
+At the beginning of training, it is really difficult for the agent get some rewards. Prioritized experience replay might be helpful.
 
-It will be interesting and challenging to try A3C or A2C in the environment.
+It will be interesting  to try MADPPG in the environment.
 
 
 
