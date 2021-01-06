@@ -1,7 +1,7 @@
 # Project 2: Continous Control
 
 ## Introduction
-The second environment is used for training and demonstration.
+Two agents play tennis.
 ![tennis](images/tennis.gif)
 
 ## Learning algorithms
