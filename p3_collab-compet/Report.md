@@ -28,7 +28,6 @@ Theses hyper-parameters are used for DDPG.
 
 
 ### Neural work architecture
-The neutral network has the same architecture as it of DQN except the last layer. 
 Actor network architecture is:
 - Input layer size: 24
 - Hidden layer 1 size: 64
@@ -56,7 +55,7 @@ DDPG solved the environment in **971** episodes with average Score: 0.51.
 
 
 ## Ideas for Future Work
-At the beginning of training, it is really difficult for the agent get some rewards. Prioritized experience replay might be helpful.
+At the beginning of training, it is really difficult for the agent to get some rewards. Prioritized experience replay might be helpful.
 
 It will be interesting  to try MADPPG in the environment.
 
