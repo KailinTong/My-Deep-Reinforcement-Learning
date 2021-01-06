@@ -1,4 +1,4 @@
-# Project 2: Continous Control
+# Project 3: Collab-Compet
 
 ## Introduction
 Two agents play tennis.
