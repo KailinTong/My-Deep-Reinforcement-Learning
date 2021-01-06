@@ -2,7 +2,7 @@
 
 ## Introduction
 The second environment is used for training and demonstration.
-![reacher](images/reacher.gif)
+![tennis](images/tennis.gif)
 
 ## Learning algorithms
 ### Deep Deterministic Policy gradient (DDPG)
@@ -44,7 +44,8 @@ Critic network architecture is:
 
 ### Implementation tricks
 1. Start from small network. The input state size and output action size is small.
-2. Before I trained 6000 episodes with the strong noises, but the average score is always oscillation. At first Cancel the noise after collecting some experience with positive rewards. Then it enables exploitation of the policy instead of exploration. 
+2. Before I trained 6000 episodes with  strong noises, but the average score strongly oscillated and did not apparently increase. Then I tried to cancel noises after collecting sufficient experiences (especially those with positive rewards). 
+This enables exploitation of the policy instead of exploration. 
 However, the agent cannot learn techniques dealing with special scenarios.
 3. Large buffer size to save those positive experience.
 
